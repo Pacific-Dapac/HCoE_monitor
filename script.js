@@ -46,8 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Global variables for main content area and HTML templates
   const mainContent = document.getElementById("main-content");
-  const navbar = document.getElementById("navbar"); // Get navbar element
-  const footer = document.getElementById("footer"); // Get footer element
+  const navbar = document.getElementById("navbar"); // Get navbar element [cite: 1, 2]
+  const footer = document.getElementById("footer"); // Get footer element [cite: 1, 2]
 
   const homeTemplate = document.getElementById("home-template");
   const exploreTemplate = document.getElementById("explore-template");
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const notificationsTemplate = document.getElementById(
     "notifications-template"
   );
-  const loginTemplate = document.getElementById("login-template"); // NEW: Login template
+  const loginTemplate = document.getElementById("login-template");
 
   // Chart instances to destroy them when navigating away
   let temperatureChartInstance = null;
@@ -77,7 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
     { email: "test@test.com", password: "password" },
   ];
 
-  let isLoggedIn = false; // Track login status
+  // MODIFIED: Use sessionStorage for login state (clears on tab/browser close)
+  let isLoggedIn = sessionStorage.getItem("loggedIn") === "true"; // Track login status
 
   // ===== ThingSpeak Configuration =====
   // These should be replaced with your actual ThingSpeak Channel ID and Read API Key
@@ -96,10 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       }
       const data = await response.json();
-      return data.feeds; // We are interested in the 'feeds' array
+      return data.feeds;
     } catch (error) {
       console.error("Failed to fetch ThingSpeak data:", error);
-      return null; // Return null or an empty array to handle errors gracefully
+      return null;
     }
   }
 
@@ -125,21 +126,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // NEW: Function to display or hide the main application UI
   function toggleAppUI(show) {
-    navbar.style.display = show ? "flex" : "none";
-    footer.style.display = show ? "flex" : "none";
-    mainContent.style.display = show ? "block" : "none";
+    // Navbar and footer are hidden/shown based on login status
+    if (navbar) navbar.style.display = show ? "flex" : "none";
+    if (footer) footer.style.display = show ? "flex" : "none";
+    if (mainContent) mainContent.style.display = show ? "block" : "none";
+    // Adjust main-content display style only when showing app UI
+    if (show && mainContent) {
+      mainContent.style.justifyContent = ""; // Reset for block display
+      mainContent.style.alignItems = ""; // Reset for block display
+      mainContent.style.marginTop = "100px"; // Restore margin for regular content
+      mainContent.style.marginBottom = "70px"; // Restore margin for regular content
+    }
   }
 
   // NEW: Render Login Page
   function renderLogin() {
     clearMainContentAndIntervals();
-    toggleAppUI(false); // Hide app UI
+    toggleAppUI(false); // Hide app UI components
     if (loginTemplate) {
-      mainContent.style.display = "flex"; // Make main-content a flex container for login
+      // Set main-content to flex for centering login box
+      mainContent.style.display = "flex";
       mainContent.style.justifyContent = "center";
       mainContent.style.alignItems = "center";
-      mainContent.style.marginTop = "0"; // Reset margin for login page
-      mainContent.style.marginBottom = "0"; // Reset margin for login page
+      mainContent.style.marginTop = "0"; // Remove top margin for centering
+      mainContent.style.marginBottom = "0"; // Remove bottom margin for centering
       mainContent.appendChild(loginTemplate.content.cloneNode(true));
 
       const loginForm = document.getElementById("login-form");
@@ -165,25 +175,20 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     if (user) {
       isLoggedIn = true;
-      localStorage.setItem("loggedIn", "true"); // Persist login state
+      sessionStorage.setItem("loggedIn", "true"); // Changed to sessionStorage
       messageElement.textContent = ""; // Clear any previous error
-      renderHome(); // Redirect to home on successful login
       toggleAppUI(true); // Show app UI
+      renderHome(); // Redirect to home on successful login
     } else {
       messageElement.textContent = "Invalid email or password.";
       isLoggedIn = false;
-      localStorage.removeItem("loggedIn"); // Ensure state is false
+      sessionStorage.removeItem("loggedIn"); // Ensure state is false
     }
   }
 
   function renderHome() {
     clearMainContentAndIntervals();
-    mainContent.style.display = "block"; // Reset to block for regular content
-    mainContent.style.justifyContent = "";
-    mainContent.style.alignItems = "";
-    mainContent.style.marginTop = "100px"; // Restore margin for regular content
-    mainContent.style.marginBottom = "70px"; // Restore margin for regular content
-
+    toggleAppUI(true); // Ensure app UI is visible
     if (homeTemplate) {
       const clonedContent = homeTemplate.content.cloneNode(true);
       const wrapperDiv = document.createElement("div");
@@ -281,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
               {
                 label: "Healing Chamber Temp (°C)",
                 data: chartFeeds.map((feed) => parseFloat(feed.field1) || null),
-                borderColor: "rgb(0, 150, 136)",
+                borderColor: "rgb(0, 150, 136)", // Teal
                 backgroundColor: "rgb(0, 150, 136)",
                 tension: 0.2,
                 fill: false,
@@ -291,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
               {
                 label: "Nursery Temp (°C)",
                 data: chartFeeds.map((feed) => parseFloat(feed.field2) || null),
-                borderColor: "rgb(255, 87, 34)",
+                borderColor: "rgb(255, 87, 34)", // Deep Orange
                 backgroundColor: "rgb(255, 87, 34)",
                 tension: 0.2,
                 fill: false,
@@ -306,32 +311,32 @@ document.addEventListener("DOMContentLoaded", () => {
             scales: {
               y: {
                 beginAtZero: false,
-                min: 0,
-                max: 45,
-                ticks: { color: "#000000" },
+                min: 0, // As per PDF [cite: 2]
+                max: 35, // As per PDF [cite: 2]
+                ticks: { color: "#000000" }, // Changed to black
                 grid: { color: "rgba(18, 10, 10, 0.14)" },
               },
               x: {
-                ticks: { color: "#000000" },
+                ticks: { color: "#000000" }, // Changed to black
                 grid: { color: "rgba(233, 227, 227, 0)" },
               },
             },
             plugins: {
-              legend: { labels: { color: "#000000" } },
+              legend: { labels: { color: "#000000" } }, // Changed to black
               annotation: {
                 annotations: {
                   recommendedTempArea: {
                     type: "box",
-                    yMin: 20,
-                    yMax: 30,
-                    backgroundColor: "rgba(144, 238, 144, 0.2)",
+                    yMin: 20, // Recommended Temp Min [cite: 2]
+                    yMax: 30, // Recommended Temp Max [cite: 2]
+                    backgroundColor: "rgba(144, 238, 144, 0.2)", // Light green, semi-transparent
                     borderColor: "rgba(144, 238, 144, 0.4)",
                     borderWidth: 1,
                   },
                 },
               },
             },
-            color: "#000000",
+            color: "#000000", // Default text color for chart elements
           },
         });
 
@@ -346,7 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
               {
                 label: "Healing Chamber RH (%)",
                 data: chartFeeds.map((feed) => parseFloat(feed.field3) || null),
-                borderColor: "rgb(0, 150, 136)",
+                borderColor: "rgb(0, 150, 136)", // Teal
                 backgroundColor: "rgb(0, 150, 136)",
                 tension: 0.2,
                 fill: false,
@@ -356,7 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
               {
                 label: "Nursery RH (%)",
                 data: chartFeeds.map((feed) => parseFloat(feed.field4) || null),
-                borderColor: "rgb(255, 87, 34)",
+                borderColor: "rgb(255, 87, 34)", // Deep Orange
                 backgroundColor: "rgb(255, 87, 34)",
                 tension: 0.2,
                 fill: false,
@@ -371,24 +376,24 @@ document.addEventListener("DOMContentLoaded", () => {
             scales: {
               y: {
                 beginAtZero: false,
-                min: 0,
-                max: 105,
-                ticks: { color: "#000000" },
+                min: 0, // As per PDF [cite: 3]
+                max: 105, // As per PDF [cite: 3]
+                ticks: { color: "#000000" }, // Changed to black
                 grid: { color: "rgba(30, 26, 26, 0.19)" },
               },
               x: {
-                ticks: { color: "#000000" },
+                ticks: { color: "#000000" }, // Changed to black
                 grid: { color: "rgba(255, 255, 255, 0.13)" },
               },
             },
             plugins: {
-              legend: { labels: { color: "#000000" } },
+              legend: { labels: { color: "#000000" } }, // Changed to black
               annotation: {
                 annotations: {
                   recommendedRhArea: {
                     type: "box",
-                    yMin: 70,
-                    yMax: 100,
+                    yMin: 70, // Interpreted Recommended RH Min
+                    yMax: 100, // Interpreted Recommended RH Max (PDF shows a wider range up to 100 for HC)
                     backgroundColor: "rgba(135, 206, 250, 0.2)",
                     borderColor: "rgba(135, 206, 250, 0.4)",
                     borderWidth: 1,
@@ -396,11 +401,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
               },
             },
-            color: "#000000",
+            color: "#000000", // Default text color for chart elements
           },
         });
       } else {
         console.warn("No ThingSpeak data found for dashboard charts.");
+        // Display error messages or empty states for charts if data fetch fails
         const tempChartContainer =
           mainContent.querySelector("#temperatureChart");
         const humidityChartContainer =
@@ -417,7 +423,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // NEW: renderDevices function
   async function renderDevices() {
     clearMainContentAndIntervals();
     if (devicesTemplate) {
@@ -493,6 +498,7 @@ document.addEventListener("DOMContentLoaded", () => {
       mainContent.innerHTML = "<p>Devices content template not found.</p>";
     }
   }
+
   async function renderNotifications() {
     clearMainContentAndIntervals();
     if (notificationsTemplate) {
@@ -504,7 +510,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const latestFeeds = await fetchThingSpeakData("results=1");
 
-      // Modified addNotificationItem to include message and action
       const addNotificationItem = (message, action) => {
         unreadNotificationsCount++;
         const li = document.createElement("li");
@@ -574,7 +579,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // --- Notification Logic (Healing Chamber Only) ---
 
-        // 1. Healing Chamber Sensor OFF/Not Updating/Reading Zero
+        // 1. Healing Chamber Sensor OFF/Not Updating/Reading Zero [cite: 3]
         const isHCSensorActive =
           isSensorConsideredActive(hcTempValue) &&
           isSensorConsideredActive(hcHumidityValue);
@@ -585,7 +590,7 @@ document.addEventListener("DOMContentLoaded", () => {
           );
         } else {
           // Proceed with temp/humidity checks only if sensor is active and updating
-          // 2. Healing Chamber Temperature Alerts
+          // 2. Healing Chamber Temperature Alerts [cite: 4]
           if (hcTempValue !== null) {
             if (hcTempValue > 30) {
               addNotificationItem(
@@ -599,13 +604,14 @@ document.addEventListener("DOMContentLoaded", () => {
               );
             }
           } else {
+            // Data is null despite sensor being 'active' - indicates a specific issue
             addNotificationItem(
               "Healing Chamber Temperature data not available.",
               checkConnectivityAction
             );
           }
 
-          // 3. Healing Chamber Humidity Alerts
+          // 3. Healing Chamber Humidity Alerts [cite: 4]
           if (hcHumidityValue !== null) {
             if (hcHumidityValue < 75) {
               addNotificationItem(
@@ -619,6 +625,7 @@ document.addEventListener("DOMContentLoaded", () => {
               );
             }
           } else {
+            // Data is null despite sensor being 'active'
             addNotificationItem(
               "Healing Chamber Humidity data not available.",
               checkConnectivityAction
@@ -626,7 +633,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
 
-        // 4. General connectivity alert if NO data is fetched AT ALL
+        // 4. General connectivity alert if NO data is fetched AT ALL [cite: 4]
         if (!latestFeeds || latestFeeds.length === 0) {
           addNotificationItem(
             "No data received from ThingSpeak. Check device connectivity and power.",
@@ -634,6 +641,7 @@ document.addEventListener("DOMContentLoaded", () => {
           );
         }
       } else {
+        // Fallback if initial fetch fails completely or returns empty array
         addNotificationItem(
           "Could not fetch any data from ThingSpeak.",
           checkConnectivityAction
@@ -642,6 +650,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       updateNotificationBadge(); // Initial badge update after processing
 
+      // Display "No current notifications." only if no alerts were added
       if (
         notificationsList.children.length === 0 &&
         unreadNotificationsCount === 0
@@ -702,7 +711,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    loadDocuments();
+    loadDocuments(); // Load documents from localStorage on setup
 
     dropZone.addEventListener("click", () => fileInput.click());
     fileInput.addEventListener("change", handleFiles);
@@ -877,7 +886,7 @@ document.addEventListener("DOMContentLoaded", () => {
         MB: 1024 * 1024,
         GB: 1024 * 1024 * 1024,
       };
-      return Math.round(parseFloat(value) * (units[unit] || 0));
+      return Math.round(parseFloat(value) * (units[unit] || 0)); // Round to nearest byte
     }
   }
 
@@ -924,8 +933,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial page load: Check login status and render appropriate page
   const checkLoginStatus = () => {
-    // Check if a 'loggedIn' flag exists in localStorage (simple persistence)
-    if (localStorage.getItem("loggedIn") === "true") {
+    // Check if a 'loggedIn' flag exists in sessionStorage (simple persistence)
+    if (sessionStorage.getItem("loggedIn") === "true") {
+      // Changed to sessionStorage
       isLoggedIn = true;
       toggleAppUI(true); // Show the UI
       renderHome(); // Render the home page
