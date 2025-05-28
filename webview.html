@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rwanda-Israel Horticulture Center of Excellence</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
+  </head>
+
+  <body>
+    <div class="background-dots" id="background-dots"></div>
+
+    <header class="navbar" id="navbar" style="display: none">
+      <div class="logo">
+        <img src="images/logo/HCoEimage.png" alt="HCoE Logo" />
+        <h1>HCoE</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><button class="nav-btn">Home</button></li>
+          <li><button class="nav-btn">Dashboard</button></li>
+          <li><button class="nav-btn">Devices</button></li>
+          <li class="nav-item notification-wrapper">
+            <button class="nav-btn">Notifications</button>
+            <span class="notification-badge">0</span>
+          </li>
+          <li><button class="nav-btn">Report</button></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main
+      class="content-section"
+      id="main-content"
+      style="display: none"
+    ></main>
+
+    <footer class="footer" id="footer" style="display: none">
+      <button class="support-btn">Support ....</button>
+      <p class="copyright">© Created by Pacific Ibyikora</p>
+    </footer>
+
+    <template id="login-template">
+      <div class="login-container">
+        <div class="login-box">
+          <div class="logo-login">
+            <img src="images/logo/HCoEimage.png" alt="HCoE Logo" />
+            <h1>HCoE Login</h1>
+          </div>
+          <form id="login-form">
+            <div class="input-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" required />
+            </div>
+            <div class="input-group">
+              <label for="password">Password:</label>
+              <input type="password" id="password" required />
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+            <p id="login-message" class="error-message"></p>
+          </form>
+        </div>
+      </div>
+    </template>
+
+    <template id="home-template">
+      <div class="left-content">
+        <h2 class="region-text">
+          Rwanda-Israel Horticulture Center of Excellence
+        </h2>
+        <h1 class="main-heading">Automated Healing Chamber</h1>
+        <p class="sub-heading">
+          Enhancing the Survival Rate of Grafted Tomato Seedlings
+        </p>
+        <button class="explore-btn">
+          Explore more <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+      <div class="right-image">
+        <img src="images/plants/ricatwo.jpg" alt="Grafted Tomato Seedlings" />
+      </div>
+    </template>
+
+    <template id="dashboard-template">
+      <div class="dashboard-container">
+        <h1 class="main-heading">Dashboard</h1>
+        <div class="dashboard-grid">
+          <div class="dashboard-box" id="healing-chamber-box">
+            <h2>Healing Chamber</h2>
+            <div class="data-point">
+              <span class="data-label">Temperature:</span>
+              <span id="hc-temp" class="data-value">Loading...</span> °C
+            </div>
+            <div class="data-point">
+              <span class="data-label">Humidity:</span>
+              <span id="hc-humidity" class="data-value">Loading...</span> %
+            </div>
+          </div>
+          <div class="dashboard-box" id="nursery-box">
+            <h2>Nursery</h2>
+            <div class="data-point">
+              <span class="data-label">Temperature:</span>
+              <span id="nursery-temp" class="data-value">Loading...</span> °C
+            </div>
+            <div class="data-point">
+              <span class="data-label">Humidity:</span>
+              <span id="nursery-humidity" class="data-value">Loading...</span> %
+            </div>
+          </div>
+        </div>
+        <div class="chart-section">
+          <h2>Temperature Comparison (Last 2 Hours)</h2>
+          <div class="chart-placeholder">
+            <canvas id="temperatureChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-section">
+          <h2>Humidity Comparison (Last 2 Hours)</h2>
+          <div class="chart-placeholder">
+            <canvas id="humidityChart"></canvas>
+          </div>
+        </div>
+        <button class="back-btn">← Back to Home</button>
+      </div>
+    </template>
+
+    <template id="devices-template">
+      <div class="devices-container">
+        <h1 class="main-heading">Device Status</h1>
+        <div class="device-list">
+          <div class="device-item">
+            <h3>Sensor 1 (Healing Chamber)</h3>
+            <p>
+              Status:
+              <span id="sensor1-status" class="device-status-value"
+                >Loading...</span
+              >
+            </p>
+            <p>
+              Last Update:
+              <span id="sensor1-last-update" class="device-last-update"
+                >N/A</span
+              >
+            </p>
+          </div>
+          <div class="device-item">
+            <h3>Sensor 2 (Nursery)</h3>
+            <p>
+              Status:
+              <span id="sensor2-status" class="device-status-value"
+                >Loading...</span
+              >
+            </p>
+            <p>
+              Last Update:
+              <span id="sensor2-last-update" class="device-last-update"
+                >N/A</span
+              >
+            </p>
+          </div>
+          <div class="device-item">
+            <h3>FAN (Healing Chamber)</h3>
+            <p>
+              Status:
+              <span id="fan-status" class="device-status-value"
+                >Loading...</span
+              >
+            </p>
+          </div>
+          <div class="device-item">
+            <h3>Humidifier (Healing Chamber)</h3>
+            <p>
+              Status:
+              <span id="humidifier-status" class="device-status-value"
+                >Loading...</span
+              >
+            </p>
+          </div>
+        </div>
+        <button class="back-btn">← Back to Home</button>
+      </div>
+    </template>
+
+    <template id="notifications-template">
+      <div class="notifications-container">
+        <h1 class="main-heading">Notifications</h1>
+        <ul id="notifications-list">
+          <li id="notifications-placeholder" style="display: none">
+            Loading notifications...
+          </li>
+        </ul>
+        <button class="back-btn">← Back to Home</button>
+      </div>
+    </template>
+
+    <template id="explore-template">
+      <div class="left-content">
+        <h1 class="main-heading">Automated Healing Chamber</h1>
+        <p class="project-description">
+          This project, titled
+          <em
+            >"Establishment of an Automated Healing Chamber for Enhancing the
+            Survival Rate of Grafted Tomato Seedlings"</em
+          >, is an IOT project that aims to develop a semi-automated structure
+          that regulates temperature and humidity, optimizing healing
+          conditions. It supports the Rwanda-Israel Horticulture Center of
+          Excellence in boosting tomato yields and promoting vegetable grafting
+          by providing farmers with healthier, high-performing grafted
+          seedlings.
+        </p>
+        <button class="back-btn">← Back</button>
+      </div>
+      <div class="right-image">
+        <div class="slideshow-container">
+          <img
+            class="slide active"
+            src="images/plants/farmers.jpg"
+            alt="Healing Chamber Tech"
+          />
+          <img
+            class="slide"
+            src="images/plants/inside.jpg"
+            alt="Grafted Seedlings"
+          />
+          <img
+            class="slide"
+            src="images/plants/overall.jpg"
+            alt="Farmers Training"
+          />
+        </div>
+      </div>
+    </template>
+
+    <template id="support-template">
+      <div class="left-content">
+        <h1 class="main-heading">Support Center</h1>
+        <div class="support-info">
+          <p><i class="fas fa-phone-alt"></i> WhatsApp/Tel: +250 783112561</p>
+          <p><i class="fas fa-envelope"></i> Email: pacificibyiks@gmail.com</p>
+          <p><i class="fas fa-clock"></i> Available: Mon-Fri, 8AM-5PM</p>
+        </div>
+        <button class="back-btn">← Back</button>
+      </div>
+      <div class="right-image">
+        <img src="images/dapac/paccy.jpg" alt="Support Team" />
+      </div>
+    </template>
+
+    <template id="reports-template">
+      <div class="document-container">
+        <h1 class="main-heading">Document Management</h1>
+        <div class="upload-section">
+          <div class="upload-box" id="drop-zone">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Drag & drop files here or click to browse</p>
+            <input
+              type="file"
+              id="file-input"
+              multiple
+              accept=".doc,.docx,.xls,.xlsx,.pdf,.jpg,.png"
+            />
+          </div>
+          <div class="file-types">
+            <span><i class="fas fa-file-word"></i> Word</span>
+            <span><i class="fas fa-file-excel"></i> Excel</span>
+            <span><i class="fas fa-file-pdf"></i>Pdf</span>
+            <span><i class="fas fa-file-image"></i> Images</span>
+          </div>
+        </div>
+        <div class="document-list-container">
+          <h2>Uploaded Documents</h2>
+          <div class="document-list" id="document-list"></div>
+        </div>
+        <button class="back-btn">← Back</button>
+      </div>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+</html>

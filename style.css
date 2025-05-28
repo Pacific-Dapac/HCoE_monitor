@@ -1,0 +1,727 @@
+/* General Body and Background */
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #2b8045;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100vh;
+}
+
+.background-dots {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.dot {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  opacity: 0;
+  animation: fadeAndMove linear infinite;
+}
+
+.dot.dark-green {
+  background-color: rgba(43, 128, 69, 0.8);
+}
+
+@keyframes fadeAndMove {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--end-x), var(--end-y)) scale(1.2);
+  }
+}
+
+/* Navbar (Header) */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 5%;
+  background-color: rgba(43, 128, 69, 0.9);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  height: 100px; /* Adjust as needed */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+.logo img {
+  height: 70px;
+  margin-right: 15px;
+  border-radius: 10%;
+}
+.logo h1 {
+  font-size: 2em;
+  margin: 0;
+  font-weight: bold;
+  color: #ccffcc;
+}
+
+.navbar nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+.nav-btn {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 1.1em;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 5px;
+  position: relative;
+}
+.nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.notification-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: rgb(251, 255, 0);
+  color: rgb(255, 0, 0);
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+/* Main Content Section */
+#main-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px 5%;
+  margin-top: 100px; /* Navbar height */
+  margin-bottom: 70px; /* Footer height */
+  box-sizing: border-box;
+}
+
+.content-section-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 30px;
+  width: 100%; /* Ensure layout takes full width of main-content padding box */
+}
+
+.left-content {
+  max-width: 50%;
+  text-align: left;
+}
+.region-text {
+  font-size: 1.5em;
+  color: #e0ffe0;
+  margin-bottom: 10px;
+}
+.main-heading {
+  font-size: 2.8em; /* Slightly reduced for better fit */
+  font-weight: bold;
+  color: #ccffcc;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.sub-heading {
+  font-size: 1.4em;
+  color: #f0fff0;
+  margin-bottom: 30px;
+}
+
+.explore-btn,
+.back-btn {
+  background-color: #3cb371;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: block; /* Make back button block for centering */
+  margin: 20px auto 0 auto; /* Center back button */
+}
+.explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0; /* Reset margin for explore */
+}
+.explore-btn:hover,
+.back-btn:hover {
+  background-color: #2e8b57;
+  transform: translateY(-2px);
+}
+
+.right-image img {
+  max-width: 100%;
+  height: auto;
+  max-height: 300px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5%;
+  background-color: rgba(43, 128, 69, 0.9);
+  color: white;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  height: 70px; /* Adjust as needed */
+}
+.support-btn {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 1.1em;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-weight: bold;
+}
+.support-btn:hover {
+  color: #ccffcc;
+}
+.copyright {
+  font-size: 0.9em;
+  color: #e0ffe0;
+  margin: 0;
+}
+
+/* Slideshow, Project Description, Support, Reports Styles... (Keep existing, ensure they work with new layout) */
+.slideshow-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transition: opacity 1s ease-in-out;
+}
+.slide.active {
+  opacity: 1;
+}
+.project-description {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #f0fff0;
+}
+.support-info {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+.support-info p {
+  font-size: 1.2em;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+}
+.support-info i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+.document-container,
+.dashboard-container,
+.devices-container,
+.notifications-container {
+  width: 100%;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 25px; /* Unified padding */
+  box-sizing: border-box;
+}
+
+/* Document Upload Styles ... (Keep existing) */
+.upload-section {
+  margin: 30px 0;
+  text-align: center;
+}
+.upload-box {
+  border: 2px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  padding: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+.upload-box:hover {
+  border-color: #3cb371;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.upload-box i {
+  font-size: 3em;
+  margin-bottom: 15px;
+  color: #3cb371;
+}
+.file-types {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.file-types span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#file-input {
+  display: none;
+}
+.document-list-container {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 20px;
+}
+.document-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 20px;
+}
+.document-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.document-item:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.document-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.document-icon {
+  font-size: 1.5em;
+}
+.document-name {
+  flex-grow: 1;
+}
+.document-actions {
+  display: flex;
+  gap: 10px;
+}
+.download-btn,
+.delete-btn {
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 0.9em;
+}
+.download-btn {
+  background-color: #3cb371;
+}
+.download-btn:hover {
+  background-color: #2e8b57;
+}
+.delete-btn {
+  background-color: #e74c3c;
+} /* Red from previous step */
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+.document-list::-webkit-scrollbar {
+  width: 8px;
+}
+.document-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.document-list::-webkit-scrollbar-thumb {
+  background: #3cb371;
+  border-radius: 10px;
+}
+.document-list::-webkit-scrollbar-thumb:hover {
+  background: #2e8b57;
+}
+
+/* Enhanced Dashboard Styles */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+.dashboard-box {
+  background-color: rgba(0, 0, 0, 0.15); /* Darker, more distinct boxes */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: left; /* Align text to left for label/value pairs */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.dashboard-box h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #98fb98; /* Light green for titles */
+  font-size: 1.6em;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
+}
+.data-point {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+.data-label {
+  color: #c0c0c0; /* Lighter grey for labels */
+}
+.data-value {
+  color: #ffffff; /* White for values */
+  font-weight: bold;
+}
+
+.chart-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.175
+  ); /* Darker background for chart section */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.chart-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #98fb98;
+  font-size: 1.4em;
+}
+/* Style for chart canvas and its parent to ensure text is black */
+.chart-placeholder {
+  position: relative; /* For canvas positioning */
+  max-width: 100%;
+  height: 450px;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Light background for canvas to mimic PDF */
+  border-radius: 4px;
+  padding: 10px; /* Add padding to chart area */
+  box-sizing: border-box;
+}
+
+.chart-placeholder canvas {
+  background-color: white; /* Ensure the Chart.js canvas itself is white */
+  color: #000000; /* Set text color for chart elements that inherit */
+}
+
+/* Devices Styles (Keep existing, ensure they work) */
+.device-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+.device-item {
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.device-item h3 {
+  margin-top: 0;
+  color: #98fb98;
+  font-size: 1.3em;
+}
+.device-item p {
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+.device-status-value.ON {
+  color: #76ff03;
+  font-weight: bold;
+}
+.device-status-value.OFF {
+  color: #ff5252;
+  font-weight: bold;
+}
+
+/* Notifications Styles (Keep existing, ensure they work) */
+#notifications-list {
+  list-style: none;
+  padding: 0;
+}
+#notifications-list li {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 12px 18px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border-left: 5px solid #3cb371;
+  display: flex;
+  flex-direction: column; /* Changed to column to stack message and action */
+  align-items: flex-start; /* Align content to the start */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.notification-message {
+  font-size: 1.1em;
+  margin-bottom: 5px; /* Space between message and action */
+}
+
+.recommended-action {
+  font-size: 0.9em;
+  color: #c0c0c0; /* Slightly lighter color for action text */
+  margin-top: 5px;
+}
+
+.notification-actions {
+  margin-top: 10px; /* Space between text and button */
+  align-self: flex-end; /* Align button to the right */
+}
+
+#notifications-list li.read {
+  opacity: 0.6;
+  border-left-color: #777;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+#notifications-list li button.mark-read-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 0; /* Reset margin */
+  font-size: 0.9em;
+}
+#notifications-list li button.mark-read-btn:hover {
+  background-color: #0056b3;
+}
+#notifications-list li button.mark-read-btn:disabled {
+  background-color: #555;
+  cursor: default;
+  opacity: 0.7;
+}
+
+/* New Login Page Styles */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.login-box {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.3
+  ); /* Slightly transparent dark background */
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.logo-login {
+  margin-bottom: 30px;
+}
+
+.logo-login img {
+  height: 90px; /* Larger logo on login page */
+  margin-bottom: 15px;
+  border-radius: 15%;
+}
+
+.logo-login h1 {
+  color: #ccffcc; /* Light green for login title */
+  font-size: 2.5em;
+  margin: 0;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #e0ffe0; /* Light green for labels */
+  font-weight: bold;
+}
+
+.input-group input[type="email"],
+.input-group input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Slightly transparent input background */
+  color: white;
+  font-size: 1em;
+  box-sizing: border-box; /* Include padding in width */
+}
+
+.input-group input[type="email"]:focus,
+.input-group input[type="password"]:focus {
+  outline: none;
+  border-color: #3cb371; /* Highlight on focus */
+  box-shadow: 0 0 5px rgba(60, 179, 113, 0.5);
+}
+
+.login-btn {
+  background-color: #3cb371;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1.1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%; /* Full width button */
+}
+
+.login-btn:hover {
+  background-color: #2e8b57;
+  transform: translateY(-2px);
+}
+
+.error-message {
+  color: #ff5252; /* Red for error messages */
+  margin-top: 15px;
+  font-size: 0.95em;
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 10px 3%;
+    gap: 10px;
+    height: auto;
+  }
+  .navbar nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .logo {
+    flex-direction: column;
+    text-align: center;
+  }
+  .logo img {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+  #main-content {
+    padding: 20px 3%;
+    margin-top: 150px; /* Adjusted for potentially taller auto navbar */
+    margin-bottom: 90px; /* Adjusted for potentially taller auto footer */
+  }
+  .content-section-layout {
+    flex-direction: column;
+    text-align: center;
+  }
+  .left-content {
+    max-width: 90%;
+    text-align: center;
+  }
+  .main-heading {
+    font-size: 2.2em;
+  }
+  .sub-heading {
+    font-size: 1.1em;
+  }
+  .right-image img {
+    max-width: 90%;
+    max-height: 250px;
+  }
+  .footer {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px 3%;
+    height: auto;
+  }
+  .dashboard-grid {
+    grid-template-columns: 1fr; /* Stack boxes on small screens */
+  }
+  .login-box {
+    padding: 25px; /* Adjust padding for smaller screens */
+  }
+  .logo-login img {
+    height: 70px; /* Smaller logo on login page for small screens */
+  }
+  .logo-login h1 {
+    font-size: 2em;
+  }
+}
