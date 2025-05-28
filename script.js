@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // In a real application, this would come from a secure server-side database.
   // For client-side demonstration, we use a simple array.
   const USERS = [
-    { email: "pacificibyiks@gmail.com", password: "123" },
+    { email: "pacificibyiks@gmail.com", password: "13" },
     { email: "admin@hcoe.com", password: "adminpassword" },
     { email: "test@test.com", password: "password" },
   ];
