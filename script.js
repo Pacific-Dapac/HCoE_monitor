@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // For client-side demonstration, we use a simple array.
   const USERS = [
     { email: "pacificibyiks@gmail.com", password: "13" },
-    { email: "admin@hcoe.com", password: "adminpassword" },
+    { email: "vaillantdavid5@gmail.com", password: "1234" },
     { email: "test@test.com", password: "password" },
   ];
 
