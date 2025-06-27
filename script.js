@@ -763,7 +763,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             <div class="document-actions">
                 <button class="download-btn">Download</button>
-                <button class="delete-btn">Delete.</button>
+                <button class="delete-btn">Delete</button>
             </div>
         `;
 
