@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
               y: {
                 beginAtZero: false,
                 min: 0, // As per PDF [cite: 2]
-                max: 35, // As per PDF [cite: 2]
+                max: 45, // As per PDF [cite: 2]
                 ticks: { color: "#000000" }, // Changed to black
                 grid: { color: "rgba(18, 10, 10, 0.14)" },
               },
