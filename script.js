@@ -73,8 +73,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // For client-side demonstration, we use a simple array.
   const USERS = [
     { email: "pacificibyiks@gmail.com", password: "13" },
-    { email: "vaillantdavid5@gmail.com", password: "1234" },
-    { email: "test@test.com", password: "password" },
+    { email: "hcoetest@gmail.com", password: "test" },
+    { email: "mukajolly12@gmail.com", password: "jolly1" },
+    { email: "zaphros1@gmail.com", password: "aphro12" },
+    { email: "iradukundapap@gmail.com", password: "papias123" },
+    { email: "gatete.aimable@gmail.com", password: "gatete1234" },
+    { email: "aimable.gatete@rab.gov.rw", password: "gatete1234" },
   ];
 
   // MODIFIED: Use sessionStorage for login state (clears on tab/browser close)
