@@ -759,30 +759,49 @@ document.addEventListener("DOMContentLoaded", () => {
       const fileType = getFileType(file.name);
       const iconClass = getIconClass(fileType);
 
-      documentItem.innerHTML = `
-            <div class="document-info">
-                <i class="document-icon ${iconClass}"></i>
-                <span class="document-name">${file.name}</span>
-                <span class="document-size">${formatFileSize(file.size)}</span>
-            </div>
-            <div class="document-actions">
-                <button class="download-btn">Download</button>
-                <button class="delete-btn">Delete</button>
-            </div>
-        `;
+      // Replace this with the actual logged-in user
+      const currentUser = {
+        email: "someuser@example.com",
+        password: "somepassword",
+      };
 
+      // Check if current user has delete permission
+      const isDeleteAllowed =
+        currentUser.email === "pacificibyiks@gmail.com" &&
+        currentUser.password === "13";
+
+      // Conditionally include delete button
+      documentItem.innerHTML = `
+        <div class="document-info">
+            <i class="document-icon ${iconClass}"></i>
+            <span class="document-name">${file.name}</span>
+            <span class="document-size">${formatFileSize(file.size)}</span>
+        </div>
+        <div class="document-actions">
+            <button class="download-btn">Download</button>
+            ${
+              isDeleteAllowed
+                ? '<button class="delete-btn">Delete</button>'
+                : ""
+            }
+        </div>
+    `;
+
+      // Download button
       documentItem
         .querySelector(".download-btn")
         .addEventListener("click", () => {
           downloadFile(file);
         });
 
-      documentItem
-        .querySelector(".delete-btn")
-        .addEventListener("click", function () {
+      // Delete button, only if present
+      const deleteBtn = documentItem.querySelector(".delete-btn");
+      if (deleteBtn) {
+        deleteBtn.addEventListener("click", function () {
           this.closest(".document-item").remove();
           saveDocuments();
         });
+      }
 
       if (documentList) {
         documentList.insertBefore(documentItem, documentList.firstChild);
