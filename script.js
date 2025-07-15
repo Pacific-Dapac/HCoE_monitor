@@ -762,7 +762,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Replace this with the actual logged-in user
       const currentUser = {
         email: "pacificibyiks@gmail.com",
-        password: "13",
+        password: "enter(13)",
       };
 
       // Check if current user has delete permission
