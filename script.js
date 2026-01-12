@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { email: "zaphros1@gmail.com", password: "aphro12" },
     { email: "iradukundapap@gmail.com", password: "papias123" },
     { email: "gatete.aimable@gmail.com", password: "gatete1234" },
+    { email: "jdmugesera@gmail.com", password: "mugesera12" },
     { email: "aimable.gatete@rab.gov.rw", password: "gatete1234" },
   ];
 
